@@ -1,5 +1,6 @@
+-- +migrate Up
 CREATE TABLE authors (
-  id   BIGSERIAL PRIMARY KEY,
+  id   INT PRIMARY KEY,
   name text      NOT NULL,
   bio  text      NOT NULL
 );

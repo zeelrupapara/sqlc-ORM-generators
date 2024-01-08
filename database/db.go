@@ -6,11 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/Improwised/golang-api/config"
-	"github.com/doug-martin/goqu/v9"
-	_ "github.com/doug-martin/goqu/v9/dialect/mysql" // import mysql if it is used
-	_ "github.com/doug-martin/goqu/v9/dialect/postgres"
-	_ "github.com/doug-martin/goqu/v9/dialect/sqlite3"
+	"github.com/sqlc_test/config"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -24,7 +20,7 @@ const (
 )
 
 // Connect with database
-func Connect(cfg config.DBConfig) (*goqu.Database, error) {
+func Connect(cfg config.DBConfig) (*sql.DB, error) {
 	switch cfg.Dialect {
 	case POSTGRES:
 		return postgresDBConnection(cfg)
@@ -35,7 +31,7 @@ func Connect(cfg config.DBConfig) (*goqu.Database, error) {
 	}
 }
 
-func sqlite3DBConnection(cfg config.DBConfig) (*goqu.Database, error) {
+func sqlite3DBConnection(cfg config.DBConfig) (*sql.DB, error) {
 
 	if _, err = os.Stat(cfg.SQLiteFilePath); err != nil {
 		file, err := os.Create(cfg.SQLiteFilePath)
@@ -51,17 +47,17 @@ func sqlite3DBConnection(cfg config.DBConfig) (*goqu.Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	return goqu.New(SQLITE3, db), err
+	return db, err
 }
 
-func postgresDBConnection(cfg config.DBConfig) (*goqu.Database, error) {
+func postgresDBConnection(cfg config.DBConfig) (*sql.DB, error) {
 	dbURL = "postgres://" + cfg.Username + ":" + cfg.Password + "@" + cfg.Host + ":" + strconv.Itoa(cfg.Port) + "/" + cfg.Db + "?" + cfg.QueryString
 	if db == nil {
 		db, err = sql.Open(POSTGRES, dbURL)
 		if err != nil {
 			return nil, err
 		}
-		return goqu.New(POSTGRES, db), err
+		return db, err
 	}
-	return goqu.New(POSTGRES, db), err
+	return db, err
 }

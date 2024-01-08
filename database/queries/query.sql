@@ -6,8 +6,6 @@ WHERE id = $1 LIMIT 1;
 SELECT * FROM authors
 ORDER BY name;
 
-
--- Example of join query emabeded
 -- name: GetBookDetailsByID :one
 SELECT
    sqlc.embed(authors), books.*

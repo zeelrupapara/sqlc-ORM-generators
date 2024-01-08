@@ -1,3 +1,4 @@
+-- +migrate Up
 CREATE TABLE books (
   id  BIGSERIAL PRIMARY KEY,
   name text     NOT NULL,

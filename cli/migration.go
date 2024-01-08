@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Improwised/golang-api/config"
-	"github.com/Improwised/golang-api/database"
+	"github.com/sqlc_test/config"
+	"github.com/sqlc_test/database"
 	_ "github.com/lib/pq" // for postgres dialect
 	migrate "github.com/rubenv/sql-migrate"
 	"github.com/spf13/cobra"
